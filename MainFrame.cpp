@@ -48,9 +48,6 @@ MainFrame::~MainFrame()
         delete pConfig;
     }
 
-
-
-
     // メディアコントロール
     if( m_pMediaControl )
     {
@@ -168,6 +165,7 @@ void MainFrame::OnFinished(wxMediaEvent& e)
         if( !nextVideoFileName.IsEmpty())
         {
             m_CurrentVideoFileName = nextVideoFileName;
+            m_pMediaControl->Stop();
             m_pMediaControl->Load(nextVideoFileName);
         }
     }
@@ -214,5 +212,19 @@ void MainFrame::OnMouseMove(wxMouseEvent& e)
 // OnKeytDown
 void MainFrame::OnKeyDown(wxKeyEvent& e)
 {
+    // [Alt + Enter]の場合はフルスクリーン表示の切り替えを行う
+
+    if( e.AltDown() && e.GetKeyCode() == WXK_RETURN)
+    {
+        this->ShowFullScreen(!this->IsFullScreen());
+
+        return;
+    }
+    else if( e.AltDown())
+    {
+        return;
+    }
+
+
     this->Close();
 }
